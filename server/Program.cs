@@ -17,9 +17,6 @@ namespace Server
         {
             message = new MessagesClass();
             authorizationClass = new AuthorizationClass();
-            //authorizationClass.Add(new DataPerson("tbgrf", "yhtrgef"));
-            //authorizationClass.Add(new DataPerson("gui", "rxrrr"));
-            //authorizationClass.LoadToFile();
             authorizationClass.LoadFromFile();
             authorizationClass.Show();
             CreateHostBuilder(args).Build().Run();

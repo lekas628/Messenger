@@ -32,10 +32,10 @@ namespace Server.Controllers
 
         // POST api/<chatController>
         [HttpPost]
-        public void Post([FromBody] Message messageg)
+        public void Post([FromBody] Message message)
         {
-            Program.message.Add(messageg);
-            messageg.show();
+            Program.message.Add(message);
+            message.show();
         }
     }
 }

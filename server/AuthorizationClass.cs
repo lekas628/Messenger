@@ -49,10 +49,6 @@ namespace Server
 
         public void SaveToFile()
         {
-            if (File.Exists(filename))
-            {
-                File.Delete(filename);
-            }
             try
             {
                 string data = JsonConvert.SerializeObject(Program.authorizationClass);
@@ -106,7 +102,8 @@ namespace Server
                     return false;
                 }
             }
-            this.Add(dataPerson);
+            //this.Add(dataPerson);
+            Program.authorizationClass.Add(dataPerson);
             return true;
         }
     }

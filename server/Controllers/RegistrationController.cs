@@ -18,7 +18,9 @@ namespace Server.Controllers
         [HttpPost]
         public bool Post([FromBody] DataPerson dataPerson)
         {
-            return Program.authorizationClass.Registration(dataPerson);
+            bool status = Program.authorizationClass.Registration(dataPerson);
+            if (status) Program.authorizationClass.SaveToFile();
+            return status;
         }
 
     }

@@ -44,10 +44,5 @@ namespace Server
                 endpoints.MapControllers();
             });
         }
-
-        protected void OnApplicationStopping()
-        {
-            Program.authorizationClass.SaveToFile();
-        }
     }
 }
