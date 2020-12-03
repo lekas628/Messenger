@@ -16,7 +16,7 @@ namespace Server
 
         public void Add(Message message)
         {
-            message.dateTime = DateTime.UtcNow;
+            message.DateTime = DateTime.UtcNow;
             messages.Add(message);
         }
 

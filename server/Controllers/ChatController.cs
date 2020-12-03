@@ -35,7 +35,7 @@ namespace Server.Controllers
         public void Post([FromBody] Message message)
         {
             Program.message.Add(message);
-            message.show();
+            message.Show();
         }
     }
 }
