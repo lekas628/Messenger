@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Server
 {
@@ -19,6 +22,8 @@ namespace Server
             authorizationClass = new AuthorizationClass();
             authorizationClass.LoadFromFile();
             authorizationClass.Show();
+            LoadMessageFromFile();
+            SaveMessageToFile();
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -28,5 +33,45 @@ namespace Server
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        public static void LoadMessageFromFile()
+        {
+            string json;
+            try
+            {
+                using (StreamReader sr = new StreamReader("message_history.json", System.Text.Encoding.Default))
+                {
+                    json = sr.ReadToEnd();
+                }
+                message = JsonConvert.DeserializeObject<MessagesClass>(json);
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+        }
+
+        public static async void SaveMessageToFile()
+        {
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        string data = JsonConvert.SerializeObject(message);
+                        using (StreamWriter stream = new StreamWriter("message_history.json", false, System.Text.Encoding.Default))
+                        {
+                            stream.WriteLine(data);
+                        }
+                    }
+                    catch (Exception exp)
+                    {
+                        Console.WriteLine(exp.Message);
+                    }
+                    Thread.Sleep(5000);
+                }
+            });
+        }
     }
 }

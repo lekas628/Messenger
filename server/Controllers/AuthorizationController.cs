@@ -10,14 +10,6 @@ namespace Server.Controllers
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
-
-        // GET api/<AuthorizationController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<AuthorizationController>
         [HttpPost]
         public bool Post([FromBody] DataPerson dataPerson)

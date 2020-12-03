@@ -21,3 +21,4 @@ C:\Users\ghht\source\repos\Server\obj\Debug\netcoreapp3.1\Server.dll
 C:\Users\ghht\source\repos\Server\obj\Debug\netcoreapp3.1\Server.pdb
 C:\Users\ghht\source\repos\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
 C:\Users\ghht\source\repos\Server\bin\Debug\netcoreapp3.1\data_sessions.json
+C:\Users\ghht\source\repos\Server\bin\Debug\netcoreapp3.1\message_history.json

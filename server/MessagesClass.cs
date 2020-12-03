@@ -1,10 +1,6 @@
-﻿using Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Server
 {
@@ -33,10 +29,6 @@ namespace Server
         public MessagesClass()
         {
             messages.Clear();
-            Message message = new Message();
-            messages.Add(message);
         }
     }
-
-
 }

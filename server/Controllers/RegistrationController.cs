@@ -12,8 +12,6 @@ namespace Server.Controllers
     [ApiController]
     public class RegistrationController : ControllerBase
     {
-      
-
         // POST api/<RegistrationController>
         [HttpPost]
         public bool Post([FromBody] DataPerson dataPerson)
@@ -22,6 +20,5 @@ namespace Server.Controllers
             if (status) Program.authorizationClass.SaveToFile();
             return status;
         }
-
     }
 }

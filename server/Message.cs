@@ -11,16 +11,10 @@ namespace Server
     [Serializable]
     public class Message
     {
-        public string name { get; set; }
-        public string text { get; set; }
-        public DateTime dateTime { get; set; }
-        public Message()
-        {
-            this.name = "Server";
-            this.text = "Server is running...";
-            this.dateTime = DateTime.UtcNow;
-        }
-
+        public string name { get; set; } = "No data";
+        public string text { get; set; } = "No data";
+        public DateTime dateTime { get; set; } = default;
+ 
         public Message(string name, string text)
         {
             this.name = name;

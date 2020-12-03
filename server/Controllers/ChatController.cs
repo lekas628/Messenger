@@ -19,7 +19,7 @@ namespace Server.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<string> Get(int id)
+        public string Get(int id)
         {
             string json = "Not found";
             if ((id < Program.message.GetCountMessages()) && (id >= 0))
@@ -27,7 +27,7 @@ namespace Server.Controllers
                 json = JsonSerializer.Serialize(Program.message.Get(id));
                 return json.ToString();
             }
-            return NotFound();
+            return json;
         }
 
         // POST api/<chatController>

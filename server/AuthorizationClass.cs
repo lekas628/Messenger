@@ -10,14 +10,9 @@ namespace Server
     [Serializable]
     public class DataPerson
     {
-        public string login { get; set; }
-        public string password { get; set; }
+        public string login { get; set; } = "No data";
+        public string password { get; set; } = "No data";
 
-        public DataPerson()
-        {
-            this.login = "no data";
-            this.password = "no data";
-        }
         public DataPerson(string login, string password)
         {
             this.login = login;
@@ -30,6 +25,7 @@ namespace Server
     {
         private readonly string filename = "data_sessions.json";
         public List<DataPerson> dataPeople;
+
         public AuthorizationClass()
         {
             this.dataPeople = new List<DataPerson>();
@@ -102,7 +98,6 @@ namespace Server
                     return false;
                 }
             }
-            //this.Add(dataPerson);
             Program.authorizationClass.Add(dataPerson);
             return true;
         }
