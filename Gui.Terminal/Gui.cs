@@ -241,7 +241,7 @@ namespace Gui.Terminal
         {
             Application.Init();
 
-            var win = new Window("login_screen")
+            var win = new Window("Login screen")
             {
                 X = 0,
                 Y = 0,
@@ -279,6 +279,12 @@ namespace Gui.Terminal
             };
             button.Clicked += () =>
             {
+
+                //checkUserData(loginText.Text.ToString(), passText.Text.ToString());
+                //username = loginText.Text.ToString();
+                //running = MainApp;
+                //Application.RequestStop();
+
                 username = loginText.Text.ToString();
                 running = MainApp; 
                 Application.RequestStop();
@@ -293,6 +299,73 @@ namespace Gui.Terminal
 
             Application.Run();
         }
+
+        static void registerScreen()
+        {
+            Application.Init();
+
+            var win = new Window("Register screen")
+            {
+                X = 0,
+                Y = 0,
+                Width = Dim.Fill(),
+                Height = Dim.Fill(),
+            };
+            Application.Top.Add(win);
+
+            var login = new Label("Login: ") { X = 3, Y = 6 };
+            var password = new Label("Password: ")
+            {
+                X = Pos.Left(login),
+                Y = Pos.Bottom(login) + 1
+            };
+            var loginText = new TextField("")
+            {
+                X = Pos.Right(password),
+                Y = Pos.Top(login),
+                Width = 40
+            };
+            var passText = new TextField("")
+            {
+                Secret = true,
+                X = Pos.Left(loginText),
+                Y = Pos.Top(password),
+                Width = Dim.Width(loginText)
+            };
+            var confirmPassText = new TextField("")
+            {
+                Secret = true,
+                X = Pos.Left(loginText),
+                Y = Pos.Top(password),
+                Width = Dim.Width(loginText)
+            };
+            var button = new Button("Register")
+            {
+                X = Pos.Right(passText) - 8,
+                Y = Pos.Bottom(passText) + 1,
+                Width = 10,
+                Height = 1,
+            };
+            button.Clicked += () =>
+            {
+                username = loginText.Text.ToString();
+                running = MainApp;
+                Application.RequestStop();
+            };
+
+
+            win.Add(login,
+                    password,
+                    loginText,
+                    passText,
+                    confirmPassText,
+                    button);
+
+            Application.Run();
+        }
+
+
+
 
         Func<bool> AddIdle(Func<bool> idleHandler)
         {

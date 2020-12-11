@@ -11,6 +11,8 @@ namespace Gui.Terminal
         public static MessagesClass messagesClass = new MessagesClass();
         public static int currentMessagesPointer;
 
+        public static Dictionary<string, bool> usersOnline = new Dictionary<string, bool>(100);
+
         static void Main(string[] args)
         {
             currentMessagesPointer = 0;
@@ -19,8 +21,15 @@ namespace Gui.Terminal
             while(currentMessagesPointer != serverMessagesPointer)
             {
                 (Message msg, bool status) = API.GetMessage(currentMessagesPointer);
-                messagesClass.Add(msg);
-                currentMessagesPointer += 1;
+                if(msg != null && msg.Text[0] == '#')
+                {
+
+                }
+                else
+                { 
+                    messagesClass.Add(msg);
+                    currentMessagesPointer += 1;
+                }
             }
 
             ChatApp.run();
