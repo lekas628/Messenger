@@ -108,20 +108,20 @@ namespace Client
             {
                 Label label = new Label();
                 label.Background = Brushes.Gray;
-                if (message.name[0] == '#')
+                if (message.Name[0] == '#')
                 {
                     label.HorizontalAlignment = HorizontalAlignment.Center;
                     label.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0, 0));
                 }
                 else
                 {
-                    if (message.name == this.dataPerson.login) label.HorizontalAlignment = HorizontalAlignment.Right;
+                    if (message.Name == this.dataPerson.login) label.HorizontalAlignment = HorizontalAlignment.Right;
                     else label.HorizontalAlignment = HorizontalAlignment.Left;
                     
                     label.Height = 45;
                 }
                 label.Margin = new Thickness(10);
-                label.Content = message.name + ": " + message.text + "\n" + message.dateTime.ToUniversalTime();
+                label.Content = message.Name + ": " + message.Text + "\n" + message.DateTime.ToUniversalTime();
                 label.Width = 7 * (label.Content.ToString().Length - 10);
                 this.ChatPanel.Children.Add(label);
             }
