@@ -7,21 +7,21 @@ namespace Client
     [Serializable]
     public class Message
     {
-        public string Name { get; set; } = default;
-        public string Text { get; set; } = default;
-        public DateTime DateTime { get; set; } = default;
+        public string name { get; set; } = default;
+        public string text { get; set; } = default;
+        public DateTime dateTime { get; set; } = default;
 
         public Message()
         {
-            this.Name = default;
-            this.Text = default;
-            this.DateTime = default;
+            this.name = default;
+            this.text = default;
+            this.dateTime = default;
         }
         public Message(string name, string text)
         {
-            this.Name = name;
-            this.Text = text;
-            this.DateTime = DateTime.UtcNow;
+            this.name = name;
+            this.text = text;
+            this.dateTime = DateTime.UtcNow;
         }
     }
 }

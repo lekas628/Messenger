@@ -13,7 +13,7 @@ namespace Client
 
         public void Add(Message message)
         {
-            message.DateTime = DateTime.UtcNow;
+            message.dateTime = DateTime.UtcNow;
             messages.Add(message);
         }
 

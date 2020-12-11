@@ -50,7 +50,7 @@ namespace Client
         {
             try
             {
-                WebRequest req = WebRequest.Create("http://localhost:5000/api/GetCountMessages/45624445");
+                WebRequest req = WebRequest.Create("http://localhost:5000/api/Info/45624445");
                 WebResponse resp = req.GetResponse();
                 Stream stream = resp.GetResponseStream();
                 StreamReader sr = new StreamReader(stream);
@@ -108,20 +108,27 @@ namespace Client
             {
                 Label label = new Label();
                 label.Background = Brushes.Gray;
-                if (message.Name[0] == '#')
+                if (message.name[0] == '#')
                 {
                     label.HorizontalAlignment = HorizontalAlignment.Center;
-                    label.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0, 0));
+                    label.Background = new SolidColorBrush(Color.FromRgb(225, 242, 251));
                 }
-                else
+                else 
                 {
-                    if (message.Name == this.dataPerson.login) label.HorizontalAlignment = HorizontalAlignment.Right;
-                    else label.HorizontalAlignment = HorizontalAlignment.Left;
-                    
+                    if (message.name == this.dataPerson.login)
+                    {
+                        label.HorizontalAlignment = HorizontalAlignment.Right;
+                        label.Background = new SolidColorBrush(Color.FromRgb(220, 248, 198));
+                    }
+                    else
+                    {
+                        label.HorizontalAlignment = HorizontalAlignment.Left;
+                        label.Background = new SolidColorBrush(Color.FromRgb(255, 225, 255));
+                    }
                     label.Height = 45;
                 }
-                label.Margin = new Thickness(10);
-                label.Content = message.Name + ": " + message.Text + "\n" + message.DateTime.ToUniversalTime();
+                label.Margin = new Thickness(10,10,10,10);
+                label.Content = message.name + ": " + message.text + "\n" + message.dateTime.ToUniversalTime();
                 label.Width = 7 * (label.Content.ToString().Length - 10);
                 this.ChatPanel.Children.Add(label);
             }
