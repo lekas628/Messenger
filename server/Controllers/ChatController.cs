@@ -13,7 +13,7 @@ namespace Server.Controllers
     [ApiController]
     public class chatController : ControllerBase
     {
-        
+
 
         // GET api/<chatController>/5
         [HttpGet("{id}")]
@@ -32,10 +32,12 @@ namespace Server.Controllers
 
         // POST api/<chatController>
         [HttpPost]
-        public void Post([FromBody] Message message)
+        public int Post([FromBody] Message message)
         {
             Program.message.Add(message);
             message.Show();
+
+            return StatusCodes.Status200OK;
         }
     }
 }
