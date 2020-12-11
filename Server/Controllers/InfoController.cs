@@ -10,16 +10,14 @@ namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GetCountMessagesController : ControllerBase
+    public class InfoController : ControllerBase
     {
       
         // GET api/<GetCountMessagesController>/5
-        [HttpGet("{id}")]
-        public int Get(int id)
+        [HttpGet("MessageCount")]
+        public int Get()
         {
-            if (id == 45624445)
-                return Program.message.GetCountMessages();
-            else return 0;
+            return Program.message.GetCountMessages();
         }
 
     }

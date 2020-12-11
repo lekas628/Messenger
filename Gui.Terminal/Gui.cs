@@ -91,7 +91,7 @@ namespace Gui.Terminal
             };
             leftWin.Add(leftChatView);
 
-            string server_status_string = "--------";
+            string server_status_string = "------";
             Label serverStatusLabel = new Label(server_status_string)
             {
                 X = Pos.Right(win) - 10,
@@ -99,6 +99,7 @@ namespace Gui.Terminal
                 Height = 1,
             };
             win.Add(serverStatusLabel);
+
 
             string username_string;
             if (username == null)
@@ -161,19 +162,19 @@ namespace Gui.Terminal
                 Text = "  SEND  ",
             };
             buttonSend.Clicked += () => { OnBtnSendClick(fieldMessage); };
-
             rightWin.Add(buttonSend);
 
-            int lastMsgID = 0;
+
+            int lastMsgID = Program.currentMessagesPointer;
             Timer updateLoop = new Timer();
-            updateLoop.Interval = 700;
+            updateLoop.Interval = 1000;
             updateLoop.Elapsed += (object sender, ElapsedEventArgs e) => {
-                
-                (bool serverStatus, Message msg) = API.GetMessage(lastMsgID);
-                
+
+                (Message msg, bool serverStatus) = API.GetMessage(lastMsgID);
+
                 if (msg != null)
                 {
-                    Program.messages.Add(msg);
+                    Program.messagesClass.Add(msg);
                     MessagesUpdate(winMessages);
                     lastMsgID++;
                 }
@@ -190,21 +191,28 @@ namespace Gui.Terminal
         {
             winMessages.RemoveAll();
             int offset = 0;
-            for (var i = Program.messages.Count - 1; i >= 0; i--)
+            for (var i = Program.messagesClass.GetCountMessages() - 1; i >= 0; i--)
             {
-                View msg = new View()
-                {
-                    X = 0,
-                    Y = offset,
-                    Width = winMessages.Width,
-                    Height = 1,
-                    Text = $"[{Program.messages[i].Name}] {Program.messages[i].Text}",
-                };
+                View msg = PrepairMessage(Program.messagesClass.Get(i), winMessages, offset);
                 winMessages.Add(msg);
                 offset++;
             }
             Application.Refresh();
         }
+
+        static View PrepairMessage(Message message, Window winMessages, int offset)
+        {
+            View msg = new View()
+            {
+                X = 0,
+                Y = offset,
+                Width = winMessages.Width,
+                Height = 1,
+                Text = $"[{message.Name}] {message.Text}",
+            };
+            return msg;
+        }
+
 
         static void StatusUpdate(Label serverStatusLabel, bool serverStatus)
         {
