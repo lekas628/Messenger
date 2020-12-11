@@ -1,22 +1,58 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Gui.Terminal
 {
 
-    class checkUserData
+    static class CheckUserData
     {
-        //string pattern = "^[a-zA-Z0-9]+$";
+        static string patternUsername = "^[a-zA-Z0-9]+$";
+        static string patternPassword = "^[a-zA-Z0-9_]+$";
 
-        //static void checkUserData(string usr, string pass)
-        //{
-        //    if
-        //}
+        public static string checkUserWhenLogin(string usr, string pass)
+        {
+            if (Regex.IsMatch(usr, patternUsername))
+            {
+                if (Regex.IsMatch(pass, patternPassword))
+                {
+                    if (API.GetServerStatus())
+                    {
+                        if (API.LoginServer(usr, pass))
+                        {
+                            return "success";
+                        }
+                        else return "Login or password is wrong";
+                    }
+                    else return "Cannot connect to the server";
+                }
+                else return "Password contain wrong characters";
+            }
+            else return "Username contain wrong characters";
+        }
 
-        //static void checkUserData(string usr, string pass, string confirmPass)
-        //{
-
-        //}
+        public static string checkUserWhenRegister(string usr, string pass, string confirmPass)
+        {
+            if (Regex.IsMatch(usr, patternUsername))
+            {
+                if (Regex.IsMatch(pass, patternPassword))
+                {
+                    if (pass == confirmPass)
+                    {
+                        if (API.GetServerStatus())
+                        {
+                            if (API.RegistrationServer(usr, pass))
+                            {
+                                return "success";
+                            }
+                            else return "Username already exist";
+                        }
+                        else return "Cannot connect to the server";
+                    }
+                    else return "Passwords do no match";
+                }
+                else return "Password contain wrong characters";
+            }
+            else return "Username contain wrong characters";
+        }
     }
 }

@@ -9,8 +9,15 @@ namespace Gui.Terminal
     public static class API
     {
         static string mainAPILink = "http://localhost:5000/api";
+        
         static string chatLink = mainAPILink + "/chat";
+
         static string infoLink = mainAPILink + "/info";
+        static string messageCountLink = infoLink + "/MessageCount";
+        static string statusLink = infoLink + "/status";
+
+        static string authorizationLink = mainAPILink + "/Authorization";
+        static string registrationLink = mainAPILink + "/Registration";
 
         public static bool SendMessage(Message msg)
         {
@@ -69,7 +76,7 @@ namespace Gui.Terminal
 
             try
             {
-                WebRequest req = WebRequest.Create($"{infoLink}/MessageCount");
+                WebRequest req = WebRequest.Create(messageCountLink);
 
                 using (WebResponse resp = req.GetResponse())
                 {
@@ -90,11 +97,71 @@ namespace Gui.Terminal
             }
         }
 
+        public static bool GetServerStatus()
+        {
+            bool status = false;
+            try
+            {
+                WebRequest req = WebRequest.Create(statusLink);
 
+                using (WebResponse resp = req.GetResponse())
+                {
+                    using (Stream stream = resp.GetResponseStream())
+                    {
+                        using (StreamReader reader = new StreamReader(stream))
+                        {
+                            status = bool.Parse(reader.ReadLine());
+                        }
+                    }
+                }
 
-        //public static GetAllMessages()
-        //{
+                return status;
+            }
+            catch (WebException)
+            {
+                return false;
+            }
+        }
 
-        //}
+        public static bool LoginServer(string username, string password)
+        {
+            DataPerson dataPerson = new DataPerson(username, password);
+            string json = System.Text.Json.JsonSerializer.Serialize(dataPerson);
+
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(authorizationLink);
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                streamWriter.Write(json);
+            }
+            
+            HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                bool result = bool.Parse(streamReader.ReadToEnd());
+                return result;
+            }
+        }
+
+        public static bool RegistrationServer(string username, string password)
+        {
+            DataPerson dataPerson = new DataPerson(username, password);
+            string json = System.Text.Json.JsonSerializer.Serialize(dataPerson);
+
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(registrationLink);
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                streamWriter.Write(json);
+            }
+            HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                bool result = bool.Parse(streamReader.ReadToEnd());
+                return result;
+            }
+        }
     }
 }

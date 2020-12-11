@@ -14,11 +14,20 @@ namespace Server.Controllers
     {
       
         // GET api/<GetCountMessagesController>/5
-        [HttpGet("MessageCount")]
-        public int Get()
+        [Route("MessageCount")]
+        [HttpGet]
+        public int GetMessageCount()
         {
             return Program.message.GetCountMessages();
         }
+
+        [Route("Status")]
+        [HttpGet]
+        public bool GetStatus()
+        {
+            return true;
+        }
+
 
     }
 }

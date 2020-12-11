@@ -36,7 +36,6 @@ namespace Gui.Terminal
                     new MenuBarItem("_File",
                         new MenuItem[]
                         {    new MenuItem("_Change user","", () => { running = loginScreen; Application.RequestStop(); }),
-                             new MenuItem("_Close", "", null),
                              new MenuItem("_Quit", "", () => { running = null; Application.RequestStop(); }),
                         }),
                     //new MenuBarItem("_Edit",
@@ -94,7 +93,7 @@ namespace Gui.Terminal
             string server_status_string = "------";
             Label serverStatusLabel = new Label(server_status_string)
             {
-                X = Pos.Right(win) - 10,
+                X = Pos.Right(win) - 15,
                 Y = 0,
                 Height = 1,
             };
@@ -120,7 +119,7 @@ namespace Gui.Terminal
                 Y = 0,
                 Height = 1,
                 CanFocus = false,
-
+                Time = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)
             };
             win.Add(timeField);
 
@@ -186,6 +185,12 @@ namespace Gui.Terminal
 
             Application.Run();
         }
+        
+        static void _Close(Window winMessages)
+        {
+
+        }
+
 
         static void MessagesUpdate(Window winMessages)
         {
@@ -241,7 +246,7 @@ namespace Gui.Terminal
         {
             Application.Init();
 
-            var win = new Window("Login screen")
+            Window win = new Window("Login screen")
             {
                 X = 0,
                 Y = 0,
@@ -250,19 +255,23 @@ namespace Gui.Terminal
             };
             Application.Top.Add(win);
 
-            var login = new Label("Login: ") { X = 3, Y = 6 };
-            var password = new Label("Password: ")
+            Label login = new Label("Login: ") 
+            { 
+                X = Pos.Center() - 25,
+                Y = Pos.Center() - 3 
+            };
+            Label password = new Label("Password: ")
             {
                 X = Pos.Left(login),
                 Y = Pos.Bottom(login) + 1
             };
-            var loginText = new TextField("")
+            TextField loginText = new TextField("")
             {
                 X = Pos.Right(password),
                 Y = Pos.Top(login),
                 Width = 40
             };
-            var passText = new TextField("")
+            TextField passText = new TextField("")
             {
                 Secret = true,
                 X = Pos.Left(loginText),
@@ -270,32 +279,47 @@ namespace Gui.Terminal
                 Width = Dim.Width(loginText)
             };
 
-            var button = new Button("Login")
+            Button loginButton = new Button("Login")
             {
-                X = Pos.Right(passText) - 8,
+                X = Pos.Right(passText) - 9,
                 Y = Pos.Bottom(passText) + 1,
                 Width = 10,
                 Height = 1,
             };
-            button.Clicked += () =>
+            loginButton.Clicked += () =>
             {
+                string result = CheckUserData.checkUserWhenLogin(loginText.Text.ToString(), passText.Text.ToString());
+                if (result == "success")
+                {
+                    username = loginText.Text.ToString();
+                    running = MainApp;
+                    Application.RequestStop();
 
-                //checkUserData(loginText.Text.ToString(), passText.Text.ToString());
-                //username = loginText.Text.ToString();
-                //running = MainApp;
-                //Application.RequestStop();
+                }
+            };
 
-                username = loginText.Text.ToString();
-                running = MainApp; 
+
+            Button registerButton = new Button("Register")
+            {
+                X = Pos.Left(passText),
+                Y = Pos.Bottom(passText) + 1,
+                Width = 15,
+                Height = 1,
+            };
+            registerButton.Clicked += () =>
+            {
+                running = registerScreen;
                 Application.RequestStop();
             };
+
 
 
             win.Add(login,
                     password,
                     loginText,
                     passText,
-                    button);
+                    loginButton,
+                    registerButton);
 
             Application.Run();
         }
@@ -304,7 +328,7 @@ namespace Gui.Terminal
         {
             Application.Init();
 
-            var win = new Window("Register screen")
+            Window win = new Window("Registration screen")
             {
                 X = 0,
                 Y = 0,
@@ -313,53 +337,87 @@ namespace Gui.Terminal
             };
             Application.Top.Add(win);
 
-            var login = new Label("Login: ") { X = 3, Y = 6 };
-            var password = new Label("Password: ")
+            Label login = new Label("Login: ")
+            {
+                X = Pos.Center() - 25,
+                Y = Pos.Center() - 3
+            };
+            Label password = new Label("Password: ")
             {
                 X = Pos.Left(login),
                 Y = Pos.Bottom(login) + 1
             };
-            var loginText = new TextField("")
+            Label confirmPassword = new Label("Confirm: ")
+            {
+                X = Pos.Left(login),
+                Y = Pos.Bottom(password) + 1
+            };
+            TextField loginText = new TextField("")
             {
                 X = Pos.Right(password),
                 Y = Pos.Top(login),
                 Width = 40
             };
-            var passText = new TextField("")
+            TextField passText = new TextField("")
             {
                 Secret = true,
                 X = Pos.Left(loginText),
                 Y = Pos.Top(password),
                 Width = Dim.Width(loginText)
             };
-            var confirmPassText = new TextField("")
+            TextField confirmPassText = new TextField("")
             {
                 Secret = true,
-                X = Pos.Left(loginText),
-                Y = Pos.Top(password),
-                Width = Dim.Width(loginText)
+                X = Pos.Left(passText),
+                Y = Pos.Top(confirmPassword),
+                Width = Dim.Width(passText)
             };
-            var button = new Button("Register")
+            
+            Button registerButton = new Button("Register")
             {
-                X = Pos.Right(passText) - 8,
-                Y = Pos.Bottom(passText) + 1,
-                Width = 10,
+                X = Pos.Right(confirmPassText) - 12,
+                Y = Pos.Bottom(confirmPassText) + 1,
+                Width = 15,
                 Height = 1,
             };
-            button.Clicked += () =>
+            registerButton.Clicked += () =>
             {
-                username = loginText.Text.ToString();
-                running = MainApp;
+                string result = CheckUserData.checkUserWhenRegister(loginText.Text.ToString(), passText.Text.ToString(),
+                    confirmPassText.Text.ToString());
+                if (result == "success")
+                {
+                    username = loginText.Text.ToString();
+                    running = MainApp;
+                    Application.RequestStop();
+                }
+            };
+
+            Button loginButton = new Button("Login")
+            {
+
+                X = Pos.Left(confirmPassText),
+                Y = Pos.Bottom(confirmPassText) + 1,
+                Width = 15,
+                Height = 1,
+            };
+            loginButton.Clicked += () =>
+            {
+                running = loginScreen;
                 Application.RequestStop();
             };
 
 
+
+
+
             win.Add(login,
                     password,
+                    confirmPassword,
                     loginText,
                     passText,
                     confirmPassText,
-                    button);
+                    registerButton,
+                    loginButton);
 
             Application.Run();
         }
