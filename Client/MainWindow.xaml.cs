@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -16,11 +17,13 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        public string Ip;
+        public int Host;
         public DataPerson dataPerson;
         public MessagesClass messagesClass;
         public DataUpdatePeriod dataUpdatePeriod;
-        Thread thread;
-        public MainWindow(DataPerson dataPerson)
+        Thread UpdateMessgethread;
+        public MainWindow(DataPerson dataPerson, string Ip, int Host)
         {
             string json;
             using (StreamReader sr = new StreamReader("SizeMainForm.json", System.Text.Encoding.Default))
@@ -32,6 +35,8 @@ namespace Client
             {
                 json1 = sr.ReadToEnd();
             }
+            this.Ip = Ip;
+            this.Host = Host;
             dataUpdatePeriod = JsonConvert.DeserializeObject<DataUpdatePeriod>(json1);
             SizeMainForm sizeMainForm = JsonConvert.DeserializeObject<SizeMainForm>(json);
             this.Width = sizeMainForm.Width;
@@ -42,15 +47,15 @@ namespace Client
             InitializeComponent();
             ShowMessageToPanel();
             SendMessage(new Message('#' + dataPerson.login, " is online"));
-            thread = new Thread(UpdateMessage);
-            thread.Start();
+            UpdateMessgethread = new Thread(UpdateMessage);
+            UpdateMessgethread.Start();
         }
 
          public int GetCountMessages()
         {
             try
             {
-                WebRequest req = WebRequest.Create("http://localhost:5000/api/Info/45624445");
+                WebRequest req = WebRequest.Create($"http://{this.Ip}:{this.Host}/api/Info/1");
                 WebResponse resp = req.GetResponse();
                 Stream stream = resp.GetResponseStream();
                 StreamReader sr = new StreamReader(stream);
@@ -70,7 +75,7 @@ namespace Client
             {
                 for (int i = 0; i < GetCountMessages(); i++)
                 {
-                    WebRequest request = WebRequest.Create("http://localhost:5000/api/chat/" + i.ToString());
+                    WebRequest request = WebRequest.Create($"http://{this.Ip}:{this.Host}/api/chat/" + i.ToString());
                     WebResponse response = request.GetResponse();
                     using (Stream stream = response.GetResponseStream())
                     {
@@ -128,9 +133,16 @@ namespace Client
                     label.Height = 45;
                 }
                 label.Margin = new Thickness(10,10,10,10);
-                label.Content = message.name + ": " + message.text + "\n" + message.dateTime.ToUniversalTime();
-                label.Width = 7 * (label.Content.ToString().Length - 10);
+                label.Content = message.name + ": " + message.text; 
+                if(label.Content.ToString().Length < 17)
+                {
+                    int size = 17 - label.Content.ToString().Length; 
+                    label.Width = (label.Content.ToString().Length + size) * 7;
+                }
+                else label.Width = label.Content.ToString().Length *7;
+                label.Content += "\n" + message.dateTime.ToUniversalTime(); 
                 this.ChatPanel.Children.Add(label);
+                this.scrollViewer.ScrollToEnd();
             }
             catch(Exception exp)
             {
@@ -141,7 +153,7 @@ namespace Client
         {
             try
             {
-                WebRequest request = WebRequest.Create("http://localhost:5000/api/chat/" + count.ToString());
+                WebRequest request = WebRequest.Create($"http://{this.Ip}:{this.Host}/api/chat/" + count.ToString());
                 WebResponse response = request.GetResponse();
                 using (Stream stream = response.GetResponseStream())
                 {
@@ -185,7 +197,7 @@ namespace Client
         {
             try
             {
-                WebRequest webRequest = WebRequest.Create("http://localhost:5000/api/chat");
+                WebRequest webRequest = WebRequest.Create($"http://{this.Ip}:{this.Host}/api/chat");
                 webRequest.Method = "POST";
                 string postData = JsonConvert.SerializeObject(message);
                 webRequest.ContentType = "application/json";
@@ -202,15 +214,18 @@ namespace Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string name = this.dataPerson.login;
-            string text = this.textBox.Text;
-            SendMessage(new Message(name, text));
+            if (this.textBox.Text != null)
+            {
+                string name = this.dataPerson.login;
+                string text = this.textBox.Text;
+                SendMessage(new Message(name, text));
+            }
+            this.textBox.Text = null;
         }
-
         private void Window_Closed(object sender, EventArgs e)
         {
             SendMessage(new Message('#' + dataPerson.login, " is not online"));
-            this.thread.Abort();
+            this.UpdateMessgethread.Abort();
         }
     }
 }

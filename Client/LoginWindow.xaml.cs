@@ -20,6 +20,8 @@ namespace Client
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private string Ip;
+        private int Host;
         public LoginWindow()
         {
             InitializeComponent();
@@ -27,28 +29,37 @@ namespace Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DataPerson dataPerson = new DataPerson(this.LoginText.Text.ToString(), this.PasswordText.Password.ToString());
-            string json = JsonSerializer.Serialize(dataPerson);
+            try
+            {
+                this.Ip = this.IpTextBox.Text;
+                this.Host = int.Parse(this.HostTextBox.Text.ToString());
+                DataPerson dataPerson = new DataPerson(this.LoginText.Text.ToString(), this.PasswordText.Password.ToString());
+                string json = JsonSerializer.Serialize(dataPerson);
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5000/api/Authorization");
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-                streamWriter.Write(json);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"http://{this.Ip}:{this.Host}/api/Authorization");
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                }
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                var streamReader = new StreamReader(httpResponse.GetResponseStream());
+                bool result = bool.Parse(streamReader.ReadToEnd());
+                if (result)
+                {
+                    MainWindow mainWindow = new MainWindow(dataPerson, Ip, Host);
+                    mainWindow.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Ops...");
+                }
             }
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            var streamReader = new StreamReader(httpResponse.GetResponseStream());
-            bool result = bool.Parse(streamReader.ReadToEnd());
-            if (result)
+            catch(Exception exp)
             {
-                MainWindow mainWindow = new MainWindow(dataPerson);
-                mainWindow.Show();
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Ops...");
+                MessageBox.Show(exp.Message);
             }
         }
 

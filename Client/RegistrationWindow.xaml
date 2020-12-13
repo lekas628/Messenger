@@ -14,5 +14,9 @@
         <Label Content="Login" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top"/>
         <Label Content="Password confirmation" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" Width="140"/>
         <Label Content="Password " HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top" Width="117"/>
+        <TextBox x:Name="IpTextBox" HorizontalAlignment="Left" Margin="10,336,0,0" Text="localhost" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="HostTextBox" HorizontalAlignment="Left" Margin="8,380,0,0" Text="5000" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Ip" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top"/>
+        <Label Content="Host" HorizontalAlignment="Left" Margin="8,354,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

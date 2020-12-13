@@ -12,7 +12,7 @@ namespace Client
 
         public DataPerson()
         {
-            this.login = default;//hrhr
+            this.login = default;
             this.login = default;
         }
         public DataPerson(string login, string password)
