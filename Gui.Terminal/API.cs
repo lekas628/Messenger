@@ -19,6 +19,23 @@ namespace Gui.Terminal
         static string authorizationLink = mainAPILink + "/Authorization";
         static string registrationLink = mainAPILink + "/Registration";
 
+
+        public static void UpdateLinks(string link)
+        {
+            mainAPILink = link;
+            if (link[link.Length - 1] != '/')
+                link = link + "/";
+
+            chatLink = mainAPILink + "/chat";
+
+            infoLink = mainAPILink + "/info";
+            messageCountLink = infoLink + "/MessageCount";
+            statusLink = infoLink + "/status";
+
+            authorizationLink = mainAPILink + "/Authorization";
+            registrationLink = mainAPILink + "/Registration";
+        }
+
         public static bool SendMessage(Message msg)
         {
             string postData = JsonConvert.SerializeObject(msg);
@@ -117,8 +134,9 @@ namespace Gui.Terminal
 
                 return status;
             }
-            catch (WebException)
+            catch (WebException ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }

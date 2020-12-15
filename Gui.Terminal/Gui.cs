@@ -9,7 +9,7 @@ namespace Gui.Terminal
     public class ChatApp
     {
 
-        static Action running = loginScreen;
+        static Action running = settingsScreen;
         static List<Func<bool>> idleHandlers = new List<Func<bool>>();
         static IMainLoopDriver Driver { get; }
 
@@ -185,12 +185,6 @@ namespace Gui.Terminal
 
             Application.Run();
         }
-        
-        static void _Close(Window winMessages)
-        {
-
-        }
-
 
         static void MessagesUpdate(Window winMessages)
         {
@@ -296,6 +290,24 @@ namespace Gui.Terminal
                     Application.RequestStop();
 
                 }
+                else
+                {
+                    bool okpressed = false;
+                    var ok = new Button(15, 2, "Ok");
+                    ok.Clicked += () => { Application.RequestStop(); okpressed = true; };
+                    var dialog = new Dialog("Error", 40, 5, ok);
+
+                    var errorLabel = new Label()
+                    {
+                        X = 1,
+                        Y = 0,
+                        Width = Dim.Fill(),
+                        Height = 1,
+                        Text = result,
+                    };
+                    dialog.Add(errorLabel);
+                    Application.Run(dialog);
+                }
             };
 
 
@@ -390,6 +402,24 @@ namespace Gui.Terminal
                     running = MainApp;
                     Application.RequestStop();
                 }
+                else
+                {
+                    bool okpressed = false;
+                    var ok = new Button(15, 2, "Ok");
+                    ok.Clicked += () => { Application.RequestStop(); okpressed = true; };
+                    var dialog = new Dialog("Error", 40, 5, ok);
+
+                    var errorLabel = new Label()
+                    {
+                        X = 1,
+                        Y = 0,
+                        Width = Dim.Fill(),
+                        Height = 1,
+                        Text = result,
+                    };
+                    dialog.Add(errorLabel);
+                    Application.Run(dialog);
+                }
             };
 
             Button loginButton = new Button("Login")
@@ -407,9 +437,6 @@ namespace Gui.Terminal
             };
 
 
-
-
-
             win.Add(login,
                     password,
                     confirmPassword,
@@ -422,6 +449,77 @@ namespace Gui.Terminal
             Application.Run();
         }
 
+        static void settingsScreen()
+        {
+            Application.Init();
+
+            Window win = new Window("Settings screen")
+            {
+                X = 0,
+                Y = 0,
+                Width = Dim.Fill(),
+                Height = Dim.Fill(),
+            };
+            Application.Top.Add(win);
+
+            Label address = new Label("Server address: ")
+            {
+                X = Pos.Center() - 30,
+                Y = Pos.Center() - 3
+            };
+            TextField addressText = new TextField("")
+            {
+                X = Pos.Right(address),
+                Y = Pos.Top(address),
+                Width = 40,
+                Text = "http://localhost:5000/api",
+            };
+
+            Button loginButton = new Button("Login")
+            {
+
+                X = Pos.Right(addressText) - 9,
+                Y = Pos.Bottom(addressText) + 1,
+                Width = 15,
+                Height = 1,
+            };
+            loginButton.Clicked += () =>
+            {
+                API.UpdateLinks(addressText.Text.ToString());
+                if(API.GetServerStatus())
+                {
+                    running = loginScreen;
+                    Application.RequestStop();
+                }
+            };
+
+            Button registerButton = new Button("Register")
+            {
+                X = Pos.Left(addressText),
+                Y = Pos.Bottom(addressText) + 1,
+                Width = 15,
+                Height = 1,
+            };
+            registerButton.Clicked += () =>
+            {
+                API.UpdateLinks(addressText.Text.ToString());
+                if (API.GetServerStatus())
+                {
+                    running = registerScreen;
+                    Application.RequestStop();
+                }
+            };
+
+
+
+            win.Add(
+                address,
+                addressText,
+                loginButton,
+                registerButton);
+
+            Application.Run();
+        }
 
 
 
