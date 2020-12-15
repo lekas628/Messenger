@@ -117,9 +117,9 @@
     </Window.Resources>
 
     <Grid Background="#778899">
-        <ScrollViewer CanContentScroll="True" VerticalAlignment="Top" Height="517">
+        <ScrollViewer x:Name="scrollViewer"  CanContentScroll="True" VerticalAlignment="Top" Height="517">
             <ScrollViewer.Background>
-                <ImageBrush ImageSource="/your_breath_on_my_neck.jpg"/>
+                <ImageBrush ImageSource="/image.jpg"/>
             </ScrollViewer.Background>
             <StackPanel x:Name="ChatPanel" Margin="0,0,0,0" Height="527"/>
         </ScrollViewer>

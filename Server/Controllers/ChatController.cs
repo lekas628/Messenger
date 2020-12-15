@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,8 +8,6 @@ namespace Server.Controllers
     [ApiController]
     public class chatController : ControllerBase
     {
-
-
         // GET api/<chatController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -34,11 +27,11 @@ namespace Server.Controllers
         [HttpPost]
         public void Post([FromBody] Message message)
         {
-            if (message.Name == "God#")
+            if (message.name == "God#")
             {
-                if (message.Text[0] == '~')
+                if (message.text[0] == '~')
                 {
-                    Program.message.RemoveAt(int.Parse(message.Text[1].ToString()));
+                    Program.message.RemoveAt(int.Parse(message.text[1].ToString()));
                 }
             }
             else

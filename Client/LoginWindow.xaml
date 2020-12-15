@@ -9,10 +9,14 @@
     <Grid Height="430" VerticalAlignment="Bottom">
         <PasswordBox x:Name="PasswordText" HorizontalAlignment="Center" Margin="0,227,0,0" VerticalAlignment="Top" Width="380" Height="24"/>
         <TextBox x:Name="LoginText" HorizontalAlignment="Center" Margin="0,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="380" Height="25"/>
-        <Button Content="Проверка" HorizontalAlignment="Left" Margin="150,281,0,0" VerticalAlignment="Top" Height="22" Width="80" Click="Button_Click"/>
+        <Button Content="Проверка" HorizontalAlignment="Center" Margin="0,284,0,0" VerticalAlignment="Top" Height="22" Width="80" Click="Button_Click"/>
         <Button x:Name="Regist" Content="Регистрация" HorizontalAlignment="Center" Margin="0,407,0,0" VerticalAlignment="Top" Height="22" Width="400" Click="Regist_Click"/>
         <Label Content="Login" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top" Width="90"/>
         <Label Content="Password" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="IpTextBox" HorizontalAlignment="Left" Margin="10,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20" Text="localhost"/>
+        <TextBox x:Name="HostTextBox" HorizontalAlignment="Left" Margin="10,330,0,0" Text="5000" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+        <Label Content="Ip" HorizontalAlignment="Left" Margin="10,258,0,0" VerticalAlignment="Top"/>
+        <Label Content="Host" HorizontalAlignment="Left" Margin="10,304,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
