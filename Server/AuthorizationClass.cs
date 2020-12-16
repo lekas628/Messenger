@@ -10,19 +10,19 @@ namespace Server
     [Serializable]
     public class DataPerson
     {
-        public string login { get; set; } = "No data";
-        public string password { get; set; } = "No data";
+        public string Login { get; set; } = "No data";
+        public string Password { get; set; } = "No data";
 
         public DataPerson()
         {
-            this.login = "No data";
-            this.password = "No data";
+            this.Login = "No data";
+            this.Password = "No data";
         }
 
         public DataPerson(string login, string password)
         {
-            this.login = login;
-            this.password = password;
+            this.Login = login;
+            this.Password = password;
         }
 
     }
@@ -45,7 +45,7 @@ namespace Server
         {
             foreach (var item in dataPeople)
             {
-                Console.WriteLine($"{item.login}: {item.password}");
+                Console.WriteLine($"{item.Login}: {item.Password}");
             }
         }
 
@@ -85,11 +85,11 @@ namespace Server
         {
             foreach(DataPerson item in dataPeople)
             {
-                if (item.login == dataPerson.login)
+                if (item.Login == dataPerson.Login)
                 {
-                    if (item.password == dataPerson.password)
+                    if (item.Password == dataPerson.Password)
                     {
-                        Console.WriteLine($"{dataPerson.login} is online");
+                        Console.WriteLine($"{dataPerson.Login} is online");
                         return true;
                     }
                 }
@@ -101,7 +101,7 @@ namespace Server
         {
             foreach (DataPerson item in dataPeople)
             {
-                if (item.login == dataPerson.login)
+                if (item.Login == dataPerson.Login)
                 {
                     return false;
                 }

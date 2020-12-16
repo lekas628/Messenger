@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "dataPeople": [
     {
@@ -31,6 +30,3 @@
     }
   ]
 }
-=======
-{"dataPeople":[{"login":"kolia","password":"12345"},{"login":"vavs","password":"qwert"},{"login":"qwerty","password":"asdf"},{"login":"God#","password":"12345"},{"login":"leo","password":"1"}]}
->>>>>>> 0ced0e193b5e311c142fe88740fdf4a8620e51ab
