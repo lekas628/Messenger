@@ -11,26 +11,26 @@ namespace Server
     [Serializable]
     public class Message
     {
-        public string name { get; set; } = "No data";
-        public string text { get; set; } = "No data";
-        public DateTime dateTime { get; set; } = default;
+        public string Name { get; set; } = "No data";
+        public string Text { get; set; } = "No data";
+        public DateTime DateTime { get; set; } = default;
  
         public Message()
         {
-            this.name = "No data";
-            this.text = "No data";
-            this.dateTime = DateTime.UtcNow;
+            this.Name = "No data";
+            this.Text = "No data";
+            this.DateTime = DateTime.UtcNow;
         }
         public Message(string name, string text)
         {
-            this.name = name;
-            this.text = text;
-            this.dateTime = DateTime.UtcNow;
+            this.Name = name;
+            this.Text = text;
+            this.DateTime = DateTime.UtcNow;
         }
 
         public void show()
         {
-            Console.WriteLine($"{this.name}: {this.text}\n{this.dateTime}");
+            Console.WriteLine($"{this.Name}: {this.Text}\n{this.DateTime}");
         }
     }
 

@@ -27,11 +27,11 @@ namespace Server.Controllers
         [HttpPost]
         public void Post([FromBody] Message message)
         {
-            if (message.name == "God#")
+            if (message.Name == "God#")
             {
-                if (message.text[0] == '~')
+                if (message.Text[0] == '~')
                 {
-                    Program.message.RemoveAt(int.Parse(message.text[1].ToString()));
+                    Program.message.RemoveAt(int.Parse(message.Text[1].ToString()));
                 }
             }
             else
