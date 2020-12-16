@@ -290,6 +290,8 @@ namespace Gui.Terminal
                 if (result == "success")
                 {
                     username = loginText.Text.ToString();
+
+                    API.SendMessage(new Message($"#{username} is online", ""));
                     running = MainApp;
                     Application.RequestStop();
 
@@ -402,6 +404,8 @@ namespace Gui.Terminal
                 if (result == "success")
                 {
                     username = loginText.Text.ToString();
+
+                    API.SendMessage(new Message($"#{username} is online", ""));
                     running = MainApp;
                     Application.RequestStop();
                 }
@@ -510,7 +514,6 @@ namespace Gui.Terminal
                 API.UpdateLinks(addressText.Text.ToString());
                 if (API.GetServerStatus())
                 {
-                    API.SendMessage(new Message($"#{username} is online", ""));
 
                     running = registerScreen;
                     Application.RequestStop();
