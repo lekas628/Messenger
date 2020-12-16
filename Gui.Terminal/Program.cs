@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace Gui.Terminal
 {
@@ -11,11 +13,15 @@ namespace Gui.Terminal
     {
         public static MessagesClass messagesClass = new MessagesClass();
         public static int currentMessagesPointer;
+        public static int updateLoopInterval = 1000;
 
         //public static Dictionary<string, bool> usersOnline = new Dictionary<string, bool>(100);
 
         static void Main(string[] args)
         {
+            LoadConfigFromFile();
+
+
             bool serverOnline =  API.GetServerStatus();
             while (!serverOnline)
             {
@@ -41,6 +47,24 @@ namespace Gui.Terminal
             
 
             ChatApp.run();
+        }
+
+        public static void LoadConfigFromFile()
+        {
+            string json;
+            try
+            {
+                using (StreamReader sr = new StreamReader("updateLoopInterval.json", System.Text.Encoding.Default))
+                {
+                    json = sr.ReadToEnd();
+                }
+                Interval interval = JsonConvert.DeserializeObject<Interval>(json);
+                updateLoopInterval = interval.updateLoopInterval;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
         }
     }
 }

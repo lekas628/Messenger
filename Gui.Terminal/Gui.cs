@@ -36,7 +36,9 @@ namespace Gui.Terminal
                     new MenuBarItem("_File",
                         new MenuItem[]
                         {    new MenuItem("_Change user","", () => { running = loginScreen; Application.RequestStop(); }),
-                             new MenuItem("_Quit", "", () => { running = null; Application.RequestStop(); }),
+                             new MenuItem("_Quit", "", () => { running = null;
+                                API.SendMessage(new Message($"#{username} is offline", ""));
+                                Application.RequestStop(); }),
                         }),
                     //new MenuBarItem("_Edit",
                     //    new MenuItem[]
@@ -164,9 +166,11 @@ namespace Gui.Terminal
             rightWin.Add(buttonSend);
 
 
+
+
             int lastMsgID = Program.currentMessagesPointer;
             Timer updateLoop = new Timer();
-            updateLoop.Interval = 1000;
+            updateLoop.Interval = Program.updateLoopInterval;
             updateLoop.Elapsed += (object sender, ElapsedEventArgs e) => {
 
                 (Message msg, bool serverStatus) = API.GetMessage(lastMsgID);
@@ -292,9 +296,8 @@ namespace Gui.Terminal
                 }
                 else
                 {
-                    bool okpressed = false;
                     var ok = new Button(15, 2, "Ok");
-                    ok.Clicked += () => { Application.RequestStop(); okpressed = true; };
+                    ok.Clicked += () => { Application.RequestStop(); };
                     var dialog = new Dialog("Error", 40, 5, ok);
 
                     var errorLabel = new Label()
@@ -404,9 +407,8 @@ namespace Gui.Terminal
                 }
                 else
                 {
-                    bool okpressed = false;
                     var ok = new Button(15, 2, "Ok");
-                    ok.Clicked += () => { Application.RequestStop(); okpressed = true; };
+                    ok.Clicked += () => { Application.RequestStop(); };
                     var dialog = new Dialog("Error", 40, 5, ok);
 
                     var errorLabel = new Label()
@@ -432,6 +434,9 @@ namespace Gui.Terminal
             };
             loginButton.Clicked += () =>
             {
+
+                API.SendMessage(new Message($"#{username} is online", ""));
+
                 running = loginScreen;
                 Application.RequestStop();
             };
@@ -505,6 +510,8 @@ namespace Gui.Terminal
                 API.UpdateLinks(addressText.Text.ToString());
                 if (API.GetServerStatus())
                 {
+                    API.SendMessage(new Message($"#{username} is online", ""));
+
                     running = registerScreen;
                     Application.RequestStop();
                 }
@@ -520,6 +527,8 @@ namespace Gui.Terminal
 
             Application.Run();
         }
+        
+
 
 
 

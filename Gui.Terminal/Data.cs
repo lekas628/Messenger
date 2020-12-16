@@ -75,7 +75,12 @@ namespace Gui.Terminal
             this.login = login;
             this.password = password;
         }
+    }
 
+    [Serializable]
+    class Interval
+    {
+        public int updateLoopInterval;
     }
 
 
