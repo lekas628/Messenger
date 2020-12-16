@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -25,30 +24,40 @@ namespace Client
         Thread UpdateMessgethread;
         public MainWindow(DataPerson dataPerson, string Ip, int Host)
         {
-            string json;
-            using (StreamReader sr = new StreamReader("SizeMainForm.json", System.Text.Encoding.Default))
+            try
             {
-                json = sr.ReadToEnd();
+                string json;
+                string Puth = AppDomain.CurrentDomain.BaseDirectory;
+                int start = Puth.IndexOf("bin");
+                Puth = Puth.Remove(start, Puth.Length - start);
+                using (StreamReader sr = new StreamReader(Puth + @"SizeMainForm.json", System.Text.Encoding.Default))
+                {
+                    json = sr.ReadToEnd();
+                }
+                string json1;
+                using (StreamReader sr = new StreamReader(Puth + @"DataUpdatePeriod.json", System.Text.Encoding.Default))
+                {
+                    json1 = sr.ReadToEnd();
+                }
+                this.Ip = Ip;
+                this.Host = Host;
+                dataUpdatePeriod = JsonConvert.DeserializeObject<DataUpdatePeriod>(json1);
+                SizeMainForm sizeMainForm = JsonConvert.DeserializeObject<SizeMainForm>(json);
+                this.Width = sizeMainForm.Width;
+                this.Height = sizeMainForm.Height;
+                this.dataPerson = dataPerson;
+                this.messagesClass = new MessagesClass();
+                GetAllMessageFromServer();
+                InitializeComponent();
+                ShowMessageToPanel();
+                SendMessage(new Message('#' + dataPerson.login, " is online"));
+                UpdateMessgethread = new Thread(UpdateMessage);
+                UpdateMessgethread.Start();
             }
-            string json1;
-            using (StreamReader sr = new StreamReader("DataUpdatePeriod.json", System.Text.Encoding.Default))
+            catch(Exception exp)
             {
-                json1 = sr.ReadToEnd();
+                MessageBox.Show(exp.Message);
             }
-            this.Ip = Ip;
-            this.Host = Host;
-            dataUpdatePeriod = JsonConvert.DeserializeObject<DataUpdatePeriod>(json1);
-            SizeMainForm sizeMainForm = JsonConvert.DeserializeObject<SizeMainForm>(json);
-            this.Width = sizeMainForm.Width;
-            this.Height = sizeMainForm.Height;
-            this.dataPerson = dataPerson;
-            this.messagesClass = new MessagesClass();
-            GetAllMessageFromServer();
-            InitializeComponent();
-            ShowMessageToPanel();
-            SendMessage(new Message('#' + dataPerson.login, " is online"));
-            UpdateMessgethread = new Thread(UpdateMessage);
-            UpdateMessgethread.Start();
         }
 
          public int GetCountMessages()
