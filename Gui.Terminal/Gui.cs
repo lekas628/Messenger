@@ -497,8 +497,26 @@ namespace Gui.Terminal
                 API.UpdateLinks(addressText.Text.ToString());
                 if(API.GetServerStatus())
                 {
+                    Program.LoadMessages();
                     running = loginScreen;
                     Application.RequestStop();
+                }
+                else
+                {
+                    var ok = new Button(15, 2, "Ok");
+                    ok.Clicked += () => { Application.RequestStop(); };
+                    var dialog = new Dialog("Error", 40, 5, ok);
+
+                    var errorLabel = new Label()
+                    {
+                        X = 1,
+                        Y = 0,
+                        Width = Dim.Fill(),
+                        Height = 1,
+                        Text = "Wrong address or server offline",
+                    };
+                    dialog.Add(errorLabel);
+                    Application.Run(dialog);
                 }
             };
 
@@ -514,9 +532,26 @@ namespace Gui.Terminal
                 API.UpdateLinks(addressText.Text.ToString());
                 if (API.GetServerStatus())
                 {
-
+                    Program.LoadMessages();
                     running = registerScreen;
                     Application.RequestStop();
+                }
+                else
+                {
+                    var ok = new Button(15, 2, "Ok");
+                    ok.Clicked += () => { Application.RequestStop(); };
+                    var dialog = new Dialog("Error", 40, 5, ok);
+
+                    var errorLabel = new Label()
+                    {
+                        X = 1,
+                        Y = 0,
+                        Width = Dim.Fill(),
+                        Height = 1,
+                        Text = "Wrong address or server offline",
+                    };
+                    dialog.Add(errorLabel);
+                    Application.Run(dialog);
                 }
             };
 

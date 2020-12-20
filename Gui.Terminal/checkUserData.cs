@@ -6,7 +6,7 @@ namespace Gui.Terminal
 
     static class CheckUserData
     {
-        static string patternUsername = "^[a-zA-Z0-9]+$";
+        static string patternUsername = "^[a-zA-Z0-9#]+$";
         static string patternPassword = "^[a-zA-Z0-9_]+$";
 
         public static string checkUserWhenLogin(string usr, string pass)

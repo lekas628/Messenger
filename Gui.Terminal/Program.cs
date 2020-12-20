@@ -20,30 +20,6 @@ namespace Gui.Terminal
         static void Main(string[] args)
         {
             LoadConfigFromFile();
-
-
-            bool serverOnline =  API.GetServerStatus();
-            while (!serverOnline)
-            {
-                Console.WriteLine("Server offline");
-                Thread.Sleep(10_000);
-                serverOnline = API.GetServerStatus();
-            }
-
-
-            currentMessagesPointer = 0;
-
-            int serverMessagesPointer = API.GetMessagesCount() - 1;
-            while (currentMessagesPointer != serverMessagesPointer)
-            {
-                (Message msg, bool status) = API.GetMessage(currentMessagesPointer);
-                //if(msg != null && msg.Text[0] == '#')
-                //{
-
-                //}
-                messagesClass.Add(msg);
-                currentMessagesPointer += 1;
-            }
             
 
             ChatApp.run();
@@ -64,6 +40,31 @@ namespace Gui.Terminal
             catch (Exception exp)
             {
                 Console.WriteLine(exp.Message);
+            }
+        }
+
+        public static void LoadMessages()
+        {
+            bool serverOnline = API.GetServerStatus();
+            while (!serverOnline)
+            {
+                Thread.Sleep(10_000);
+                serverOnline = API.GetServerStatus();
+            }
+
+
+            currentMessagesPointer = 0;
+
+            int serverMessagesPointer = API.GetMessagesCount() - 1;
+            while (currentMessagesPointer != serverMessagesPointer)
+            {
+                (Message msg, bool status) = API.GetMessage(currentMessagesPointer);
+                //if(msg != null && msg.Text[0] == '#')
+                //{
+
+                //}
+                messagesClass.Add(msg);
+                currentMessagesPointer += 1;
             }
         }
     }
