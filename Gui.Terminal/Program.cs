@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading;
 using Newtonsoft.Json;
 
@@ -14,8 +12,6 @@ namespace Gui.Terminal
         public static MessagesClass messagesClass = new MessagesClass();
         public static int currentMessagesPointer;
         public static int updateLoopInterval = 1000;
-
-        //public static Dictionary<string, bool> usersOnline = new Dictionary<string, bool>(100);
 
         static void Main(string[] args)
         {
@@ -34,7 +30,7 @@ namespace Gui.Terminal
                 {
                     json = sr.ReadToEnd();
                 }
-                Interval interval = JsonConvert.DeserializeObject<Interval>(json);
+                Settings interval = JsonConvert.DeserializeObject<Settings>(json);
                 updateLoopInterval = interval.updateLoopInterval;
             }
             catch (Exception exp)
@@ -59,10 +55,6 @@ namespace Gui.Terminal
             while (currentMessagesPointer != serverMessagesPointer)
             {
                 (Message msg, bool status) = API.GetMessage(currentMessagesPointer);
-                //if(msg != null && msg.Text[0] == '#')
-                //{
-
-                //}
                 messagesClass.Add(msg);
                 currentMessagesPointer += 1;
             }
