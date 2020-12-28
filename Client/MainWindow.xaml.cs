@@ -64,7 +64,7 @@ namespace Client
         {
             try
             {
-                WebRequest req = WebRequest.Create($"http://{this.Ip}:{this.Host}/api/Info/1");
+                WebRequest req = WebRequest.Create($"http://{this.Ip}:{this.Host}/api/Info/MessageCount");
                 WebResponse resp = req.GetResponse();
                 Stream stream = resp.GetResponseStream();
                 StreamReader sr = new StreamReader(stream);
@@ -122,14 +122,14 @@ namespace Client
             {
                 Label label = new Label();
                 label.Background = Brushes.Gray;
-                if (message.name[0] == '#')
+                if (message.Name[0] == '#')
                 {
                     label.HorizontalAlignment = HorizontalAlignment.Center;
                     label.Background = new SolidColorBrush(Color.FromRgb(225, 242, 251));
                 }
                 else 
                 {
-                    if (message.name == this.dataPerson.Login)
+                    if (message.Name == this.dataPerson.Login)
                     {
                         label.HorizontalAlignment = HorizontalAlignment.Right;
                         label.Background = new SolidColorBrush(Color.FromRgb(220, 248, 198));
@@ -142,14 +142,14 @@ namespace Client
                     label.Height = 45;
                 }
                 label.Margin = new Thickness(10,10,10,10);
-                label.Content = message.name + ": " + message.text; 
+                label.Content = message.Name + ": " + message.Text; 
                 if(label.Content.ToString().Length < 17)
                 {
                     int size = 17 - label.Content.ToString().Length; 
                     label.Width = (label.Content.ToString().Length + size) * 7;
                 }
                 else label.Width = label.Content.ToString().Length *7;
-                label.Content += "\n" + message.dateTime.ToUniversalTime(); 
+                label.Content += "\n" + message.DateTime.ToUniversalTime(); 
                 this.ChatPanel.Children.Add(label);
                 this.scrollViewer.ScrollToEnd();
             }
