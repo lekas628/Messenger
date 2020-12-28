@@ -50,7 +50,7 @@ namespace Client
                 GetAllMessageFromServer();
                 InitializeComponent();
                 ShowMessageToPanel();
-                SendMessage(new Message('#' + dataPerson.login, " is online"));
+                SendMessage(new Message('#' + dataPerson.Login, " is online"));
                 UpdateMessgethread = new Thread(UpdateMessage);
                 UpdateMessgethread.Start();
             }
@@ -129,7 +129,7 @@ namespace Client
                 }
                 else 
                 {
-                    if (message.name == this.dataPerson.login)
+                    if (message.name == this.dataPerson.Login)
                     {
                         label.HorizontalAlignment = HorizontalAlignment.Right;
                         label.Background = new SolidColorBrush(Color.FromRgb(220, 248, 198));
@@ -225,7 +225,7 @@ namespace Client
         {
             if (this.textBox.Text != null)
             {
-                string name = this.dataPerson.login;
+                string name = this.dataPerson.Login;
                 string text = this.textBox.Text;
                 SendMessage(new Message(name, text));
             }
@@ -233,7 +233,7 @@ namespace Client
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            SendMessage(new Message('#' + dataPerson.login, " is not online"));
+            SendMessage(new Message('#' + dataPerson.Login, " is not online"));
             this.UpdateMessgethread.Abort();
         }
     }

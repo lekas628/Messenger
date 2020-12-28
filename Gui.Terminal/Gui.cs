@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Timers;
 using Terminal.Gui;
 
@@ -40,18 +39,6 @@ namespace Gui.Terminal
                                 API.SendMessage(new Message($"#{username} is offline", ""));
                                 Application.RequestStop(); }),
                         }),
-                    //new MenuBarItem("_Edit",
-                    //    new MenuItem[]
-                    //    {
-                    //        new MenuItem("_Copy", "", null),
-                    //        new MenuItem("_Cut", "", null),
-                    //        new MenuItem("_Paste", "", null),
-                    //    }),
-                     //new MenuBarItem("Settings",
-                     //   new MenuItem[]
-                     //   {
-                     //       new MenuItem("_Username", "", null),
-                     //   }),
                 });
             Application.Top.Add(menu);
 
@@ -224,11 +211,12 @@ namespace Gui.Terminal
                 serverStatusLabel.Text = "Online";
             else
                 serverStatusLabel.Text = "#Offline#";
+            Application.Refresh();
         }
 
         static void OnBtnSendClick(TextField fieldMessage)
         {
-            if (username.Length != 0 && fieldMessage.Text.Length != 0)
+            if (fieldMessage.Text.Length != 0)
             {
                 Message msg = new Message()
                 {
@@ -565,10 +553,6 @@ namespace Gui.Terminal
 
             Application.Run();
         }
-        
-
-
-
 
         Func<bool> AddIdle(Func<bool> idleHandler)
         {

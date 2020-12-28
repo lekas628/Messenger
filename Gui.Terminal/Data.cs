@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 namespace Gui.Terminal
@@ -78,7 +77,7 @@ namespace Gui.Terminal
     }
 
     [Serializable]
-    class Interval
+    class Settings
     {
         public int updateLoopInterval;
     }

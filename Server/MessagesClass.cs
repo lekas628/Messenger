@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace Server
 {
-   
     [Serializable]
     public class MessagesClass
     {

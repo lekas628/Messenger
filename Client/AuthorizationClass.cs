@@ -7,18 +7,18 @@ namespace Client
     [Serializable]
     public class DataPerson
     {
-        public string login { get; set; } = default;
-        public string password { get; set; } = default;
+        public string Login { get; set; } = default;
+        public string Password { get; set; } = default;
 
         public DataPerson()
         {
-            this.login = default;
-            this.login = default;
+            this.Login = default;
+            this.Login = default;
         }
         public DataPerson(string login, string password)
         {
-            this.login = login;
-            this.password = password;
+            this.Login = login;
+            this.Password = password;
         }
 
     }
