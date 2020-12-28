@@ -2,22 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Server
 {
     [Serializable]
     public class DataPerson
     {
-        public string Login { get; set; }
-        public string Password { get; set; }
+        public string Login { get; set; } = "No data";
+        public string Password { get; set; } = "No data";
 
         public DataPerson()
         {
-            this.Login = "no data";
-            this.Password = "no data";
+            this.Login = "No data";
+            this.Password = "No data";
         }
+
         public DataPerson(string login, string password)
         {
             this.Login = login;
@@ -25,11 +24,13 @@ namespace Server
         }
 
     }
+
     [Serializable]
     public class AuthorizationClass
     {
         private readonly string filename = "data_sessions.json";
         public List<DataPerson> dataPeople;
+
         public AuthorizationClass()
         {
             this.dataPeople = new List<DataPerson>();
@@ -43,7 +44,7 @@ namespace Server
         {
             foreach (var item in dataPeople)
             {
-                Console.WriteLine($"{item.Login}: {item.Password}\n");
+                Console.WriteLine($"{item.Login}: {item.Password}");
             }
         }
 
@@ -83,11 +84,13 @@ namespace Server
         {
             foreach(DataPerson item in dataPeople)
             {
-                if(item.Login == dataPerson.Login)
+                if (item.Login == dataPerson.Login)
                 {
                     if (item.Password == dataPerson.Password)
+                    {
                         Console.WriteLine($"{dataPerson.Login} is online");
                         return true;
+                    }
                 }
             }
             return false;
@@ -102,7 +105,6 @@ namespace Server
                     return false;
                 }
             }
-            //this.Add(dataPerson);
             Program.authorizationClass.Add(dataPerson);
             return true;
         }

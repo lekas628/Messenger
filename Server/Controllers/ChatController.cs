@@ -27,10 +27,6 @@ namespace Server.Controllers
         [HttpPost]
         public void Post([FromBody] Message message)
         {
-<<<<<<< HEAD:server/Controllers/ChatController.cs
-            Program.message.Add(message);
-            message.Show();
-=======
             if (message.Name == "God#")
             {
                 if (message.Text[0] == '~')
@@ -43,7 +39,6 @@ namespace Server.Controllers
                 Program.message.Add(message);
                 message.show();
             }
->>>>>>> merge:Server/Controllers/ChatController.cs
         }
     }
 }

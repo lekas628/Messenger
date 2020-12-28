@@ -1,14 +1,11 @@
-﻿using Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
+using System.Text;
+using System.Windows.Controls;
 
-namespace Server
+namespace Client
 {
-   
     [Serializable]
     public class MessagesClass
     {
@@ -33,10 +30,6 @@ namespace Server
         public MessagesClass()
         {
             messages.Clear();
-            Message message = new Message();
-            messages.Add(message);
         }
     }
-
-
 }
